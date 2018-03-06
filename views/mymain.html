@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Search</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" 
+		integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+		<style>
+		.grid-container{
+			display: grid;
+			grid-template-columns: auto auto;
+			justify-content: center;
+			grid-row-gap: 20px;
+			grid-column-gap: 10px;
+		}
+		.center {
+			margin: auto;
+			width: 60%;
+			padding: 10px;
+		}
+		.grid-item{
+		}
+		</style>
+		<script>
+		$(document).ready(function(){
+			var load_counter=0;
+			var search_text;
+			var data;
+			$('#topic_form').submit(function(event){
+				search_text = $(this).serializeArray();
+				data = search_text;
+				load_counter = 0;
+				data.push({name:'load_counter', value:load_counter});
+				console.log(data);
+				load_counter++;
+				$.post('/',data,function(response){
+					$('div').html(response);
+				});
+				event.preventDefault();
+			});
+			
+			$(window).scroll(function(){
+				if ($(window).scrollTop() + $(window).height() + 1 > $(document).height()){
+					console.log("dsfafdasdf");
+					data = search_text;
+					data.push({ name:'load_counter', value:load_counter });
+					load_counter++;
+					$.post('/',data,function(response){
+						$('div.grid-container').append(response);
+					});
+				}
+			});
+			
+		});
+		</script>
+	</head>
+	<body>
+		<form id="topic_form" name='the_form' action='' method='POST'>
+			Search About:<br>
+			<select name='search_text'>
+				{% for search_text in search_text_list %}
+					<option value="{{search_text}}">{{search_text}}</option>
+				{% endfor%}
+			</select>
+			<input type='submit' value='GO!'>
+		</form>
+		
+		<p>
+			Welcome {{username}} !
+		</p>
+		
+		<a href="/logout">
+			<button>Logout</button>
+		</a>
+		
+		<div class="grid-container center"></div>
+				
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" 
+		integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+	</body>
+</html>

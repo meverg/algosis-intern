@@ -1,0 +1,15 @@
+<!doctype html>
+<head></head>
+<body>
+	{% if error %}
+	<span style="color: red">Error: {{ error }}</span><p>
+	{% endif %}
+	<form action="/login" method="POST">
+		Email: <input name="username" type="text"><br>
+		Password: <input name="password" type="password"><br>
+		<input type="submit" value="Login">
+	</form><br/>
+	<a href="/register">
+		<button>Register</button>
+	</a>
+</body>

@@ -1,0 +1,16 @@
+{% for event in search_result_list %}
+<div class="grid-item">	
+	<a href="{{event.link}}">
+		<div class="card" style="width:400px;">
+			<img class="img-fluid" style="max-height:200px;"
+				src="{% if event.photo_link|string() == "" %}imgs/{{ range(1,9)|random }}.jpg{% else %}{{event.photo_link}}{% endif %}">
+			<div class="card-body text-center">
+				<h4 class="card-title">{{event.name}}</h4>
+				<p class="card-text">{{event.city}}, {{event.country}}</p>
+				<p class="card-text">{{event.local_date}} {{event.local_time}}</p>
+				<p class="card-text">{{event.yes_rsvp_count}} coming</p>
+			</div>
+		</div>
+	</a>
+</div>
+{% endfor %}
